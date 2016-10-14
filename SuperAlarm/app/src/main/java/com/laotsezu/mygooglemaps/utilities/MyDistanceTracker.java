@@ -1,31 +1,31 @@
 package com.laotsezu.mygooglemaps.utilities;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.graphics.PointF;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by laotsezu on 14/10/2016.
  */
 
-public class MyPositionSensor implements SensorListener {
-    private static final String TAG = "MyPositionSensor";
+public class MyDistanceTracker implements SensorListener {
+    private static final String TAG = "MyDistanceTracker";
     private Context context;
     private SensorManager mSensorManager;
     private long lastTime;
-    MyPoint3D lastPoint,currentPoint;
-    public MyPositionSensor(Context context){
+    private MyAccelerometer currentAccelerometer;
+    private double distance;
+    public MyDistanceTracker(Context context){
         this.context = context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        mSensorManager.registerListener(this,SensorManager.SENSOR_ACCELEROMETER,SensorManager.SENSOR_DELAY_GAME);
     }
-
+    public void startTrackDistance(){
+        mSensorManager.registerListener(this,SensorManager.SENSOR_ACCELEROMETER,SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    public void stopTrackDistance(){
+        mSensorManager.unregisterListener(this);
+    }
     @Override
     public void onSensorChanged(int sensor, float[] values) {
         if (sensor == SensorManager.SENSOR_ACCELEROMETER) {
@@ -35,9 +35,16 @@ public class MyPositionSensor implements SensorListener {
                 long diffTime = (curTime - lastTime);
                 lastTime = curTime;
 
-                currentPoint = new MyPoint3D(values[SensorManager.DATA_X],values[SensorManager.DATA_Y],values[SensorManager.DATA_Z]);
-                if(lastPoint == null)
-                    lastPoint = currentPoint;
+                if(currentAccelerometer == null){
+                    currentAccelerometer = new MyAccelerometer(values[SensorManager.DATA_X],values[SensorManager.DATA_Y],values[SensorManager.DATA_Z]);
+                }
+                else{
+                    currentAccelerometer.updateValue(values[SensorManager.DATA_X],values[SensorManager.DATA_Y],values[SensorManager.DATA_Z]);
+                }
+
+                distance += currentAccelerometer.getLastDistance();
+
+
                 try {
                     Log.e(TAG,"Current Distance = " + getDistanceFromOrigin());
                 } catch (Exception e) {
@@ -47,10 +54,7 @@ public class MyPositionSensor implements SensorListener {
         }
     }
     public double getDistanceFromOrigin() throws Exception{
-        if(lastPoint != null && currentPoint != null){
-            return lastPoint.distanceTo(currentPoint);
-        }
-        throw new Exception();
+        return distance;
     }
     @Override
     public void onAccuracyChanged(int sensor, int accuracy) {
