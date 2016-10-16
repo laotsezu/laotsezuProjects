@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BigProject</string>
+    <string name="facebook_app_id">1207365702618716</string>
+    <string name="fb_login_protocol_scheme">fb1207365702618716</string>
+	<string name="google_map_api_key">AIzaSyDPlDzqnP6hhk6DeuQ3X7uz8WBlLxFya3g</string>
+	<string name="google_places_api_key">AIzaSyDh9awLKRYTJyU01Z49FjYWy_zS9bkHcow</string>
 </resources>

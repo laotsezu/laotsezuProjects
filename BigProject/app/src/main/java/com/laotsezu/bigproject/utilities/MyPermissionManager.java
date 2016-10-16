@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class MyPermissionManager {
-    public static int PERMISSION_REQUEST_CODE = 5111;
+    public static int PERMISSION_REQUEST_CODE = 51211;
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean checkAndRequestPermissions(Activity activity, String...permissions){
         List<String> list_permissed_yet = new LinkedList<>();

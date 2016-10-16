@@ -10,7 +10,7 @@ public class FollowHimActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_follow_me);
+        setContentView(R.layout.view_follow_him);
 
 
     }

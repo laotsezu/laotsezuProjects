@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="user"
+            type="com.laotsezu.bigproject.followme.User"/>
+    </data>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_choose_follow"
@@ -11,3 +17,4 @@
     tools:context="com.laotsezu.bigproject.followme.ChooseFollowActivity">
 
 </RelativeLayout>
+</layout>
